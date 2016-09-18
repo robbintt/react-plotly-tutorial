@@ -27,6 +27,8 @@
           var urlSuffix = "&units=metric";
           var openweathermap_endpoint = urlPrefix + encLocation + "&APPID=" + openweathermap_key + urlSuffix;
 
+          // Documentation: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
+          // Examples: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
           var httpRequest = new XMLHttpRequest();
           httpRequest.addEventListener("load", reqListener)
           httpRequest.open("GET", openweathermap_endpoint, true);
