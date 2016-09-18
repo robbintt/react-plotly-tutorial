@@ -8,4 +8,4 @@ The tutorial was modified to be entirely client side, to support static site rea
 - Source: Plot.ly React Tutorial 
     - Part I: http://academy.plot.ly/react/1-introduction/
     - Part II: http://academy.plot.ly/react/2-first-app/
-    - Part III: 
+    - Part III: http://academy.plot.ly/react/3-with-plotly/
