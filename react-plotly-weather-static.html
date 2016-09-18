@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>React</title>
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-with-addons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.14.0/babel.min.js"></script>
+
+  <script type="text/jsx">
+
+
+      class App extends React.Component  {
+        state = {
+          location: '',
+          data: {}
+        };
+
+        fetchData = (evt) => {
+          evt.preventDefault();
+
+          var encLocation = encodeURIComponent(this.state.location)
+          var openweathermap_key = "feba54721c03782ad4a21884d603f94b";
+          var urlPrefix = "http://api.openweathermap.org/data/2.5/forecast?q=";
+          var urlSuffix = "&units=metric";
+          var openweathermap_endpoint = urlPrefix + encLocation + "&APPID=" + openweathermap_key + urlSuffix;
+
+          var httpRequest = new XMLHttpRequest();
+          httpRequest.addEventListener("load", reqListener)
+          httpRequest.open("GET", openweathermap_endpoint, true);
+          httpRequest.send();
+
+          // self is used as a placeholder for this so we can use 
+          // setState inside the new 'self' contect of the reqListener.
+          var self = this;
+          function reqListener() {
+            self.setState({
+              data: JSON.parse(this.responseText)
+            });
+          }
+
+        };
+
+        changeLocation = (evt) => {
+          this.setState({
+            location: evt.target.value
+          });
+        };
+
+        render() {
+          var currentTemp = 'not loaded yet'
+          if (this.state.data.list) {
+            currentTemp = this.state.data.list[0].main.temp;
+          }
+          return (
+            <div>
+              <h1>Weather</h1>
+              <form onSubmit={this.fetchData}>
+                <label>I want to know the weather for
+                  <input 
+                    placeholder={"City, Country"} 
+                    type="text" 
+                    value={this.state.location}
+                    onChange={this.changeLocation}
+                  />
+                </label>
+              </form>
+              <p className ="temp-wrapper">
+                <span className="temp">{ currentTemp }</span>
+                <span className="temp-symbol"> deg. C</span>
+              </p>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(
+        <App />,
+        document.getElementById('container')
+      );
+  </script>
+</head>
+<body>
+  <div id="container"></div>
+</body>
+</html>
